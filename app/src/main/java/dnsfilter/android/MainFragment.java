@@ -18,7 +18,6 @@ import android.text.Spanned;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -41,7 +40,7 @@ import util.TimeoutListener;
 import util.TimoutNotificator;
 
 
-public class MainFragment extends Fragment implements View.OnClickListener, LoggerInterface{
+public class MainFragment extends Fragment implements View.OnClickListener, LoggerInterface {
 
     protected static ImageButton reset_button;
     protected static ImageButton settings_button;
@@ -163,7 +162,6 @@ public class MainFragment extends Fragment implements View.OnClickListener, Logg
 
     }
 
-
     protected void goToSettings(){
 
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
@@ -230,6 +228,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Logg
         power_status.setText("OFF");
         Log.d("power_status", "off");
     }
+
 
 
     private static class MsgTimeoutListener implements TimeoutListener {
