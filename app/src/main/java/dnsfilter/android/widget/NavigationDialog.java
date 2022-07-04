@@ -4,15 +4,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import dnsfilter.android.R;
 
 public class NavigationDialog extends Dialog {
-    private static final String TAG = "Navigation dialog";
     private static final Long SWIPE_ANIMATION_DURATION = 500L;
+    private static final Long SWIPE_EVENT_DURATION_THRESHOLD = 100L;
     private Float startDX = 0f;
     private Float totalShiftX = 0f;
     private View containerView = null;
@@ -40,21 +39,16 @@ public class NavigationDialog extends Dialog {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 startDX = event.getRawX();
-                Log.d(TAG, "Start dX = " + startDX);
                 return true;
             case MotionEvent.ACTION_MOVE:
-                Log.d(TAG, "raw X event = " + event.getRawX());
                 float shift = startDX - event.getRawX();
                 totalShiftX = shift;
-                Log.d(TAG, "shift = " + shift + " and total shift = " + totalShiftX);
                 if (shift >= 0) {
                     containerView.setX(-shift);
                 }
                 return true;
             case MotionEvent.ACTION_UP:
-                Log.d(TAG, "current time = " + System.currentTimeMillis() + " downtime = " + event.getDownTime() +
-                        " diff = " + (SystemClock.uptimeMillis() - event.getDownTime()));
-                if (SystemClock.uptimeMillis() - event.getDownTime() < 100L) {
+                if (SystemClock.uptimeMillis() - event.getDownTime() < SWIPE_EVENT_DURATION_THRESHOLD) {
                     onCancelSwipe();
                     return super.onTouchEvent(event);
                 }
