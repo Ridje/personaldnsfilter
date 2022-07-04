@@ -80,6 +80,7 @@ import java.util.StringTokenizer;
 import dnsfilter.ConfigUtil;
 import dnsfilter.ConfigurationAccess;
 import dnsfilter.DNSFilterManager;
+import dnsfilter.android.widget.NavigationDialog;
 import util.ExecutionEnvironment;
 import util.GroupedLogger;
 import util.Logger;
@@ -116,6 +117,7 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 	protected static TextView addFilterBtn;
 	protected static TextView removeFilterBtn;
 	protected static CheckBox appWhiteListCheck;
+	protected static Button navMainButton;
 	protected static boolean appWhitelistingEnabled;
 	protected static ScrollView appWhiteListScroll;
 	protected static AppSelectorView appSelector;
@@ -450,7 +452,7 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 			window.setLayout((int) (DISPLAY_WIDTH * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
 			window.setBackgroundDrawableResource(android.R.color.transparent);
 
-			advNavigation = new Dialog(DNSProxyActivity.this, R.style.Theme_dialog_NavDialog);
+			advNavigation = new NavigationDialog(DNSProxyActivity.this, R.style.Theme_dialog_NavDialog);
 			advNavigation.setContentView(R.layout.navigationdialog);
 			advNavigation.setTitle("DnsFilter");
 			advNavigation.setOnKeyListener(this);
@@ -501,6 +503,8 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 			removeFilterBtn.setOnClickListener(this);
 			link_field = (TextView) advNavigation.findViewById(R.id.navHelpUs);
 			link_field.setOnClickListener(this);
+			navMainButton = advNavigation.findViewById(R.id.navMain);
+			navMainButton.setOnClickListener(this);
 
 			scrollLockField = (TextView) findViewById(R.id.scrolllock);
 			if (scroll_locked)
@@ -1255,10 +1259,13 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 		} else if (destination == manualDNSViewResDefBtn){
 			restoreDefaultDNSConfig();
 			return;
-		} else if (destination == exitDNSCfgBtn){
+		} else if (destination == exitDNSCfgBtn) {
 			advDNSConfigDia.dismiss();
 			advDNSConfigDia_open = false;
 			persistConfig();
+			return;
+		} else if (destination == navMainButton) {
+			advNavigation.hide();
 			return;
 		}
 
