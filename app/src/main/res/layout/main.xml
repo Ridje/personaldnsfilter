@@ -9,6 +9,8 @@
     android:orientation="vertical"
     android:weightSum="1">
 
+    <include layout="@layout/customappbar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -30,8 +32,8 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/dnsLabel"
-                android:textStyle="bold"
-                android:textColor="#424242" />
+                android:textColor="#424242"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/dnsField"
@@ -58,72 +60,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/relLayout2"
-                android:layout_width="match_parent"
+            <dnsfilter.android.PaddedCheckBox
+                android:id="@+id/advancedConfigCheck"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="2dp"
-                android:paddingTop="0dp">
-
-                <dnsfilter.android.PaddedCheckBox
-                    android:id="@+id/advancedConfigCheck"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="2dp"
-                    android:button="@drawable/custom_menu"
-                    android:checked="false"
-                    android:text="@string/EnableConfigCheckBox"
-                    android:textColor="#424242" />
-
-                <LinearLayout
-                    android:id="@+id/linearLayout5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/remoteCtrlBtn"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="4dp"
-                        android:background="@drawable/custom_button"
-                        android:drawableLeft="@drawable/remote_icon"
-                        android:gravity="center"
-                        android:padding="2dp"
-                        android:textColor="#424242"></Button>
-
-
-                    <Button
-                        android:id="@+id/helpBtn"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="4dp"
-                        android:background="@drawable/custom_button"
-                        android:gravity="center"
-                        android:padding="2dp"
-                        android:text="?"
-                        android:includeFontPadding="false"
-                        android:textColor="#000000"
-                        android:textSize="16dp"
-                        android:textStyle="bold"></Button>
-                </LinearLayout>
-            </RelativeLayout>
+                android:button="@drawable/custom_menu"
+                android:checked="false"
+                android:text="@string/EnableConfigCheckBox"
+                android:textColor="#424242" />
 
             <ScrollView
                 android:id="@+id/advSettingsScroll"
-                android:background="@drawable/box_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="3dp"
-                android:scrollbarSize="5dp"
+                android:background="@drawable/box_background"
                 android:overScrollMode="never"
+                android:scrollbarSize="5dp"
                 android:scrollbarThumbVertical="@drawable/scroll_bar">
 
                 <LinearLayout
@@ -216,7 +174,7 @@
                         android:layout_marginTop="0dp"
                         android:button="@drawable/custom_switch"
                         android:checked="false"
-                        android:text= "@string/proxyLocalOnlyCheckbox"
+                        android:text="@string/proxyLocalOnlyCheckbox"
                         android:textColor="#424242" />
 
                     <dnsfilter.android.PaddedCheckBox
@@ -246,13 +204,13 @@
 
             <LinearLayout
                 android:id="@+id/filtercfgview"
-                android:background="@drawable/box_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="15dp"
+                android:background="@drawable/box_background"
                 android:orientation="vertical"
                 android:paddingBottom="15dp">
 
@@ -310,10 +268,9 @@
                         android:layout_weight="0.09"
                         android:background="@drawable/custom_button"
                         android:drawableStart="@drawable/arrow_left"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
                         android:paddingLeft="7dp"
-                        />
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp" />
 
                     <TextView
                         android:id="@+id/categoryFilter"
@@ -339,16 +296,16 @@
                         android:background="@drawable/custom_button"
                         android:drawableEnd="@drawable/arrow_right"
                         android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:paddingRight="7dp"/>
+                        android:paddingRight="7dp"
+                        android:paddingBottom="4dp" />
                 </LinearLayout>
 
                 <ScrollView
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:scrollbarSize="5dp"
                     android:overScrollMode="never"
+                    android:scrollbarSize="5dp"
                     android:scrollbarThumbVertical="@drawable/scroll_bar">
 
                     <TableLayout
@@ -367,8 +324,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".14"
                                 android:paddingLeft="0dp"
-                                android:text="@string/active"
                                 android:singleLine="true"
+                                android:text="@string/active"
                                 android:textColor="#424242"
                                 android:textSize="14dp"
                                 android:textStyle="bold" />
@@ -500,8 +457,8 @@
             android:layout_marginTop="3dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
-            android:scrollbarSize="5dp"
             android:overScrollMode="never"
+            android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@drawable/scroll_bar">
 
             <HorizontalScrollView
@@ -509,8 +466,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:scrollbarSize="5dp"
                 android:overScrollMode="never"
+                android:scrollbarSize="5dp"
                 android:scrollbarThumbHorizontal="@drawable/scroll_bar">
 
                 <EditText
@@ -522,7 +479,7 @@
                     android:padding="10dp"
                     android:textColor="#424242"
                     android:textSize="14sp"
-                    android:typeface="monospace"/>
+                    android:typeface="monospace" />
             </HorizontalScrollView>
         </ScrollView>
 
@@ -534,16 +491,16 @@
             android:layout_marginTop="3dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
-            android:scrollbarSize="5dp"
             android:overScrollMode="never"
+            android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@drawable/scroll_bar">
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:scrollbarSize="5dp"
                 android:overScrollMode="never"
+                android:scrollbarSize="5dp"
                 android:scrollbarThumbHorizontal="@drawable/scroll_bar">
 
                 <EditText
@@ -555,7 +512,7 @@
                     android:padding="10dp"
                     android:textColor="#424242"
                     android:textSize="14sp"
-                    android:typeface="monospace"/>
+                    android:typeface="monospace" />
             </HorizontalScrollView>
         </ScrollView>
 
@@ -627,9 +584,9 @@
                         android:layout_weight="0.085"
                         android:background="@drawable/custom_button"
                         android:drawableStart="@drawable/arrow_left"
+                        android:paddingLeft="6.5dp"
                         android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:paddingLeft="6.5dp" />
+                        android:paddingBottom="4dp" />
 
                     <EditText
                         android:id="@+id/BackupId"
@@ -654,8 +611,8 @@
                         android:background="@drawable/custom_button"
                         android:drawableEnd="@drawable/arrow_right"
                         android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:paddingRight="6.5dp"/>
+                        android:paddingRight="6.5dp"
+                        android:paddingBottom="4dp" />
                 </LinearLayout>
 
 
@@ -738,9 +695,9 @@
             android:layout_marginTop="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginBottom="2dp"
-            android:includeFontPadding="false"
             android:background="#FFFFFF"
             android:gravity="right"
+            android:includeFontPadding="false"
             android:textColor="#424242"
             android:textStyle="bold" />
 
@@ -792,14 +749,13 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="3dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
             android:background="#eceff1"
-            android:paddingRight="0dp"
+            android:overScrollMode="never"
             android:paddingLeft="8dp"
             android:paddingTop="0dp"
+            android:paddingRight="0dp"
             android:paddingBottom="0dp"
             android:scrollbarSize="5dp"
-            android:overScrollMode="never"
             android:scrollbarThumbVertical="@drawable/scroll_bar">
 
             <EditText
@@ -817,18 +773,4 @@
                 android:textSize="14sp" />
         </ScrollView>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/link_field"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginBottom="-1dp"
-        android:layout_weight="0.05"
-        android:background="#00BCD4"
-        android:gravity="center"
-        android:maxLines="2"
-        android:paddingHorizontal="3dp"
-        android:textColor="#455a64"
-        android:textSize="12dp"
-        android:visibility="visible" />
 </LinearLayout>

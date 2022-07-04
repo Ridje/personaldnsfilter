@@ -11,4 +11,10 @@
     <item name="android:background">#00BCD4</item>
     <item name="android:maxLines">1</item>
   </style>
+
+  <style name="navDialogAnimation">
+    <item name="android:windowEnterAnimation">@anim/slide_in_from_left</item>
+    <item name="android:windowExitAnimation">@anim/slide_out_to_left</item>
+  </style>
+
 </resources>

@@ -4,9 +4,16 @@
     <item name="android:windowTitleBackgroundStyle">@style/windowTitleBackgroundStyle</item>
     <item name="android:windowTitleStyle">@style/windowTitleStyle</item>
     <item name="android:windowTitleSize">50dip</item>
+    <item name="android:homeAsUpIndicator">@drawable/custom_menu</item>
   </style>
   <style name="Theme.dialog.TitleBar" parent="@android:style/Theme.Dialog">
     <item name="android:windowTitleStyle">@style/windowTitleStyle</item>
     <item name="android:windowTitleSize">50dip</item>
+  </style>
+
+  <style name="Theme.dialog.NavDialog" parent="@android:style/Theme.Dialog">
+    <item name="android:windowTitleStyle">@style/windowTitleStyle</item>
+    <item name="android:windowTitleSize">50dip</item>
+    <item name="android:windowAnimationStyle">@style/navDialogAnimation</item>
   </style>
 </resources>

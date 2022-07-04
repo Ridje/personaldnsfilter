@@ -45,6 +45,7 @@ import android.text.method.LinkMovementMethod;
 import android.transition.TransitionManager;
 import android.util.TypedValue;
 import android.view.ActionMode;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,10 +81,10 @@ import dnsfilter.ConfigUtil;
 import dnsfilter.ConfigurationAccess;
 import dnsfilter.DNSFilterManager;
 import util.ExecutionEnvironment;
-import util.SuppressRepeatingsLogger;
 import util.GroupedLogger;
 import util.Logger;
 import util.LoggerInterface;
+import util.SuppressRepeatingsLogger;
 import util.TimeoutListener;
 import util.TimoutNotificator;
 
@@ -100,6 +101,7 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 	protected Button helpBtn;
 	protected static EditText logOutView;
 	protected static TextView dnsField;
+	protected static Button navButton;
 	protected static CheckBox advancedConfigCheck;
 	protected static CheckBox editFilterLoadCheck;
 	protected static CheckBox editAdditionalHostsCheck;
@@ -143,8 +145,10 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 	protected static MenuItem add_filter;
 	protected static MenuItem remove_filter;
 	protected static String[] availableBackups;
+	protected static TextView titleView;
 	protected static int selectedBackup;
 
+	protected static Dialog advNavigation;
 
 	protected static boolean additionalHostsChanged = false;
 	protected static boolean manuallyConfEdited = false;
@@ -319,6 +323,29 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 		}
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		if (titleView != null) {
+			titleView.setText(title);
+		} else {
+			super.setTitle(title);
+		}
+	}
+
+	@Override
+	public void setTitle(int titleId) {
+		if (titleView != null) {
+			titleView.setText(getText(titleId));
+		} else {
+			super.setTitle(titleId);
+		}
+	}
+
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -347,6 +374,7 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 				window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
 				getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimaryDark));
 			}
+			requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 			setContentView(R.layout.main);
 
@@ -372,6 +400,8 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 			logOutView.setOnTouchListener(this);
 			logOutView.setOnFocusChangeListener(this);
 			logOutView.setOnClickListener(this);
+
+			titleView = findViewById(R.id.title);
 
 			String version = "<unknown>";
 			String connCnt = "-1";
@@ -420,6 +450,16 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 			window.setLayout((int) (DISPLAY_WIDTH * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
 			window.setBackgroundDrawableResource(android.R.color.transparent);
 
+			advNavigation = new Dialog(DNSProxyActivity.this, R.style.Theme_dialog_NavDialog);
+			advNavigation.setContentView(R.layout.navigationdialog);
+			advNavigation.setTitle("DnsFilter");
+			advNavigation.setOnKeyListener(this);
+
+			Window navWindow = advNavigation.getWindow();
+			navWindow.setLayout((int) (DISPLAY_WIDTH * 0.8), WindowManager.LayoutParams.FILL_PARENT);
+			navWindow.setBackgroundDrawableResource(android.R.color.transparent);
+			navWindow.setGravity(Gravity.START);
+
 			boolean checked = manualDNSCheck != null && manualDNSCheck.isChecked();
 
 			manualDNSCheck = (CheckBox) advDNSConfigDia.findViewById(R.id.manualDNSCheck);
@@ -441,14 +481,9 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 			stopBtn.setOnClickListener(this);
 			reloadFilterBtn = (Button) findViewById(R.id.filterReloadBtn);
 			reloadFilterBtn.setOnClickListener(this);
-			helpBtn = (Button) findViewById(R.id.helpBtn);
+			helpBtn = navWindow.findViewById(R.id.navHelp);
 			helpBtn.setOnClickListener(this);
-			remoteCtrlBtn = (Button) findViewById(R.id.remoteCtrlBtn);
-			if (!CONFIG.isLocal())
-				remoteCtrlBtn.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.remote_icon), null);
-			else
-				remoteCtrlBtn.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.remote_icon_outline), null);
-
+			remoteCtrlBtn = navWindow.findViewById(R.id.navRemoteControl);
 			remoteCtrlBtn.setOnClickListener(this);
 			backupBtn = (Button) findViewById(R.id.backupBtn);
 			backupBtn.setOnClickListener(this);
@@ -464,13 +499,8 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 			addFilterBtn.setOnClickListener(this);
 			removeFilterBtn = (TextView) findViewById(R.id.removeFilterBtn);
 			removeFilterBtn.setOnClickListener(this);
-			link_field = (TextView) findViewById(R.id.link_field);
-			link_field.setText(fromHtml(link_field_txt));
+			link_field = (TextView) advNavigation.findViewById(R.id.navHelpUs);
 			link_field.setOnClickListener(this);
-
-			Drawable background = link_field.getBackground();
-			if (background instanceof ColorDrawable)
-				link_field_color = ((ColorDrawable) background).getColor();
 
 			scrollLockField = (TextView) findViewById(R.id.scrolllock);
 			if (scroll_locked)
@@ -490,6 +520,9 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 			dnsField.setText(uiText);
 			dnsField.setEnabled(true);
 			dnsField.setOnClickListener(this);
+
+			navButton = findViewById(R.id.navButton);
+			navButton.setOnClickListener(this);
 
 			checked = enableAdFilterCheck != null && enableAdFilterCheck.isChecked();
 			enableAdFilterCheck = (CheckBox) findViewById(R.id.enableAddFilter);
@@ -668,7 +701,7 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 			logException(eio);
 		}
 	}
-	
+
 	private void dump(Exception e) {
 		StringWriter str = new StringWriter();
 		e.printStackTrace(new PrintWriter(str));
@@ -987,8 +1020,6 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 
 					//Link field
 					link_field_txt = config.getConfigValue("footerLink", "");
-					if (!MSG_ACTIVE)
-						link_field.setText(fromHtml(link_field_txt));
 
 					//Log formatting
 					filterLogFormat = config.getConfigValue("filterLogFormat", "<font color='#E53935'>($CONTENT)</font>");
@@ -1029,11 +1060,6 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 					//set whitelisted apps into UI
 					appSelector.setSelectedApps(config.getConfigValue("androidAppWhiteList", ""));
 
-					if (!CONFIG.isLocal())
-						remoteCtrlBtn.setCompoundDrawablesWithIntrinsicBounds(null, null,getResources().getDrawable(R.drawable.remote_icon), null);
-					else
-						remoteCtrlBtn.setCompoundDrawablesWithIntrinsicBounds(null, null,getResources().getDrawable(R.drawable.remote_icon_outline), null);
-
 					switchingConfig = false;
 				}
 			};
@@ -1045,7 +1071,7 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 
 		} else
 			switchingConfig =false;
-	}	
+	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
@@ -1190,13 +1216,18 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 		if (destination == addFilterBtn) {
 			onCopyFilterFromLogView(true);
 			return;
+		} else if (destination == navButton) {
+			advNavigation.show();
+			return;
 		} else if (destination == removeFilterBtn) {
 			onCopyFilterFromLogView(false);
 			return;
 		} else if (destination == link_field) {
+			advNavigation.hide();
 			handleFooterClick();
 			return;
 		} else if (destination == helpBtn) {
+			advNavigation.hide();
 			openBrowser("https://www.zenz-home.com/personaldnsfilter/help/help.php");
 			return;
 		} else if (destination == dnsField) {
@@ -1244,6 +1275,7 @@ public class DNSProxyActivity extends Activity implements OnClickListener, Logge
 		persistConfig();
 
 		if (destination == remoteCtrlBtn) {
+			advNavigation.hide();
 			if (!switchingConfig) {
 				//close advanced settings to force reload from new config
 				advancedConfigCheck.setChecked(false);

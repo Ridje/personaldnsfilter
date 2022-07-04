@@ -40,4 +40,7 @@
   <string name="remoteConnectDialogTitle">Remote control</string>
   <string name="URL" translatable="false">URL</string>
   <string name="manuallyEditConfChk">Edit configuration file</string>
+  <string name="main">Main</string>
+  <string name="help">Help</string>
+  <string name="support">Support</string>
 </resources>

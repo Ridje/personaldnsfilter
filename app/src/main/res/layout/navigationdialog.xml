@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navContainer"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_transparent_button"
+        android:drawableStart="@drawable/ic_home"
+        android:drawableLeft="@drawable/ic_home"
+        android:drawablePadding="10dp"
+        android:gravity="start"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:text="@string/main" />
+
+    <Button
+        android:id="@+id/navRemoteControl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_transparent_button"
+        android:drawableStart="@drawable/ic_remote_control"
+        android:drawableLeft="@drawable/ic_remote_control"
+        android:drawablePadding="10dp"
+        android:gravity="start"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:text="@string/remoteConnectDialogTitle" />
+
+    <Button
+        android:id="@+id/navHelp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_transparent_button"
+        android:drawableStart="@drawable/ic_help"
+        android:drawableLeft="@drawable/ic_help"
+        android:drawablePadding="10dp"
+        android:gravity="start"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:text="@string/help" />
+
+    <Button
+        android:id="@+id/navHelpUs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_transparent_button"
+        android:drawableStart="@drawable/ic_help_us"
+        android:drawableLeft="@drawable/ic_help_us"
+        android:drawablePadding="10dp"
+        android:gravity="start"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:text="@string/support" />
+
+</LinearLayout>
